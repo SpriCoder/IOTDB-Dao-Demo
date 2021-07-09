@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <property name="driverClassName">org.apache.iotdb.jdbc.IoTDBDriver</property>
+    <property name="url">jdbc:iotdb://127.0.0.1:6667/</property>
+    <property name="username">root</property>
+    <property name="password">root</property>
+</database>
