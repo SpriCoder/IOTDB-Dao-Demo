@@ -1,5 +1,5 @@
-import data.MyTest;
-import mapper.MyTestMapper;
+import data.SystemInfo;
+import mapper.SystemInfoMapper;
 import org.junit.Test;
 import sqlSession.MySqlSession;
 
@@ -17,9 +17,12 @@ public class IntegrationTest {
     @Test
     public void queryAll(){
         MySqlSession mySqlSession = new MySqlSession();
-        MyTestMapper mapper = mySqlSession.getMapper(MyTestMapper.class);
-        List<MyTest> myTests = mapper.getMyTests();
-        assertNotNull(myTests);
-        assertNotEquals(0, myTests.size());
+        SystemInfoMapper mapper = mySqlSession.getMapper(SystemInfoMapper.class);
+        List<SystemInfo> systemInfos = mapper.getMyTests();
+        for(SystemInfo systemInfo: systemInfos){
+            System.out.println(systemInfo);
+        }
+        assertNotNull(systemInfos);
+        assertNotEquals(0, systemInfos.size());
     }
 }

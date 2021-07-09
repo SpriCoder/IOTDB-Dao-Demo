@@ -6,7 +6,7 @@ package data;
  * @Version 1.0
  **/
 
-public class MyTest {
+public class SystemInfo {
     private Double memoryUsage;
     private Double cpuUsage;
     private Double diskUsage;

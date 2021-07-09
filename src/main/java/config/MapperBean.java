@@ -1,6 +1,7 @@
 package config;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author stormbroken
@@ -18,6 +19,11 @@ public class MapperBean {
      */
     private List<Function> functions;
 
+    /**
+     * the map between POJO and database, POJO -> database
+     */
+    private Map<String, String> paramMap;
+
     public String getInterfaceName() {
         return interfaceName;
     }
@@ -32,5 +38,13 @@ public class MapperBean {
 
     public void setFunctions(List<Function> functions) {
         this.functions = functions;
+    }
+
+    public Map<String, String> getParamMap() {
+        return paramMap;
+    }
+
+    public void setParamMap(Map<String, String> paramMap) {
+        this.paramMap = paramMap;
     }
 }

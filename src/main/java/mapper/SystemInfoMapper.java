@@ -1,6 +1,6 @@
 package mapper;
 
-import data.MyTest;
+import data.SystemInfo;
 
 import java.util.List;
 
@@ -10,6 +10,6 @@ import java.util.List;
  * @Version 1.0
  **/
 
-public interface MyTestMapper {
-    List<MyTest> getMyTests();
+public interface SystemInfoMapper {
+    List<SystemInfo> getMyTests();
 }

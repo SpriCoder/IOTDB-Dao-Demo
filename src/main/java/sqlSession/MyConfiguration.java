@@ -99,26 +99,41 @@ public class MyConfiguration {
             // the list of methods
             List<Function> functionList = new ArrayList<>();
             for(Iterator rootIter = root.elementIterator(); rootIter.hasNext();){
-                Function function = new Function();
                 Element e = (Element) rootIter.next();
-                String sqlType = e.getName().trim();
-                String funcName = e.attributeValue("id").trim();
-                String sql = e.getText().trim();
-                String resultType = e.attributeValue("resultType").trim();
-                function.setSqlType(sqlType);
-                function.setFuncName(funcName);
-                Object newInstance = null;
-                try{
-                    newInstance = Class.forName(resultType).newInstance();
-                }catch (InstantiationException | IllegalAccessException | ClassNotFoundException e1){
-                    e1.printStackTrace();
+
+                switch (e.getName()){
+                    case "resultMap":
+                        Map<String, String> paramMap = new HashMap<>();
+                        for(Iterator resultIter = e.elementIterator(); resultIter.hasNext();){
+                            Element result = (Element) resultIter.next();
+                            paramMap.put(result.attributeValue("column"),
+                                    result.attributeValue("property"));
+                        }
+                        mapper.setParamMap(paramMap);
+                        break;
+                    default:
+                        Function function = new Function();
+                        String sqlType = e.getName().trim();
+                        String funcName = e.attributeValue("id").trim();
+                        String sql = e.getText().trim();
+                        String resultType = e.attributeValue("resultType").trim();
+                        function.setSqlType(sqlType);
+                        function.setFuncName(funcName);
+                        Object newInstance = null;
+                        try{
+                            newInstance = Class.forName(resultType).newInstance();
+                        }catch (InstantiationException | IllegalAccessException
+                                | ClassNotFoundException e1){
+                            e1.printStackTrace();
+                        }
+                        function.setResultType(newInstance);
+                        function.setSql(sql);
+                        functionList.add(function);
+                        break;
                 }
-                function.setResultType(newInstance);
-                function.setSql(sql);
-                functionList.add(function);
+
             }
             mapper.setFunctions(functionList);
-
         }catch (DocumentException e){
             e.printStackTrace();
         }

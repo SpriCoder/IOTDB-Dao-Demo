@@ -1,6 +1,10 @@
 package sqlSession;
 
+import executor.Executor;
+import executor.ExecutorImpl;
+
 import java.lang.reflect.Proxy;
+import java.util.Map;
 
 /**
  * @Author stormbroken
@@ -9,11 +13,11 @@ import java.lang.reflect.Proxy;
  **/
 
 public class MySqlSession {
-    private Executor executor = new MyExecutor();
+    private Executor executor = new ExecutorImpl();
     private MyConfiguration myConfiguration = new MyConfiguration();
 
-    public <T> T selectOne(String statement, Object parameter){
-        return executor.query(statement, parameter);
+    public <T> T selectAll(String statement, Class<?> result, Map<String, String> map){
+        return executor.queryList(statement, result, map);
     }
 
     /**

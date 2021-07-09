@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper nameSpace="mapper.SystemInfoMapper">
+    <select id="getMyTests" resultType ="data.SystemInfo">
+        select * from root.demo
+    </select>
+
+    <resultMap id="SystemInfo" resultType = "data.SystemInfo">
+        <result column="time" property="Time"></result>
+        <result column="diskUsage" property="root.demo.pc1.disk"></result>
+        <result column="cpuUsage" property="root.demo.pc1.cpu"></result>
+        <result column="memoryUsage" property="root.demo.pc1.memory"></result>
+    </resultMap>
+</mapper>

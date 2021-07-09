@@ -2,6 +2,7 @@ package sqlSession;
 
 import config.Function;
 import config.MapperBean;
+import data.SystemInfo;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -26,7 +27,7 @@ public class MyMapperProxy implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        MapperBean mapperBean = myConfiguration.readMapper("MyTestMapper.xml");
+        MapperBean mapperBean = myConfiguration.readMapper("SystemInfoMapper.xml");
         if(!method.getDeclaringClass().getName().equals(mapperBean.getInterfaceName())){
             return null;
         }
@@ -35,8 +36,7 @@ public class MyMapperProxy implements InvocationHandler {
         if(null != functionList || 0 != functionList.size()){
             for(Function function: functionList){
                 if(method.getName().equals(function.getFuncName())){
-                    String params = (args == null) ? "" : String.valueOf(args[0]);
-                    return mySqlSession.selectOne(function.getSql(), params);
+                    return mySqlSession.selectAll(function.getSql(), SystemInfo.class, mapperBean.getParamMap());
                 }
             }
         }
