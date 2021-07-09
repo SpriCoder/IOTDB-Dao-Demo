@@ -1,5 +1,7 @@
 package config;
 
+import java.util.Map;
+
 /**
  * @Author stormbroken
  * Create by 2021/07/09
@@ -7,11 +9,30 @@ package config;
  **/
 
 public class Function {
+    /**
+     * Type Of SQL
+     */
     private String sqlType;
+    /**
+     * The name of Function
+     */
     private String funcName;
+    /**
+     * The Value of SQL
+     */
     private String sql;
+    /**
+     * The Type of Result
+     * TODO how to differ single one and list
+     * First it will be String(Because of possibility of alias)
+     * Finally it will be Class<?> which relates to the result
+     */
     private Object resultType;
-    private String parameterType;
+    /**
+     * The Map between the POJO and the metadata of database
+     * Eg cpuUsage -> root.demo.pc1.cpu
+     */
+    private Map<String, String> resultMap;
 
     public String getSqlType() {
         return sqlType;
@@ -45,11 +66,13 @@ public class Function {
         this.resultType = resultType;
     }
 
-    public String getParameterType() {
-        return parameterType;
+    public Map<String, String> getResultMap() {
+        return resultMap;
     }
 
-    public void setParameterType(String parameterType) {
-        this.parameterType = parameterType;
+    public void setResultMap(Map<String, String> resultMap) {
+        this.resultMap = resultMap;
     }
+
+    // TODO extend params
 }

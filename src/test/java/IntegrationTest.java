@@ -18,7 +18,7 @@ public class IntegrationTest {
     public void queryAll(){
         MySqlSession mySqlSession = new MySqlSession();
         SystemInfoMapper mapper = mySqlSession.getMapper(SystemInfoMapper.class);
-        List<SystemInfo> systemInfos = mapper.getMyTests();
+        List<SystemInfo> systemInfos = mapper.getAllSystemInfo();
         for(SystemInfo systemInfo: systemInfos){
             System.out.println(systemInfo);
         }

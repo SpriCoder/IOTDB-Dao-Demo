@@ -2,7 +2,6 @@ package sqlSession;
 
 import config.Function;
 import config.MapperBean;
-import data.SystemInfo;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -36,7 +35,8 @@ public class MyMapperProxy implements InvocationHandler {
         if(null != functionList || 0 != functionList.size()){
             for(Function function: functionList){
                 if(method.getName().equals(function.getFuncName())){
-                    return mySqlSession.selectAll(function.getSql(), SystemInfo.class, mapperBean.getParamMap());
+                    return mySqlSession.selectAll(function.getSql(),
+                            (Class<?>) function.getResultType(), function.getResultMap());
                 }
             }
         }

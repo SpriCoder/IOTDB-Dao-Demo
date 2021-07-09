@@ -17,8 +17,20 @@ import java.util.Map;
  **/
 
 public class ExecutorImpl implements Executor{
+    /**
+     * Config
+     */
     private MyConfiguration myConfiguration = new MyConfiguration();
 
+    /**
+     * 执行列表查询
+     *
+     * @param <T> 结果泛型
+     * @param query 查询语句
+     * @param resultType 结果类型
+     * @param map 映射类型
+     * @return
+     */
     @Override
     public <T> T queryList(String query, Class<?> resultType, Map<String, String> map) {
         Connection connection = getConnection();

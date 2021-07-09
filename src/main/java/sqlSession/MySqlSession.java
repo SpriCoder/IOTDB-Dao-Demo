@@ -16,12 +16,20 @@ public class MySqlSession {
     private Executor executor = new ExecutorImpl();
     private MyConfiguration myConfiguration = new MyConfiguration();
 
+    /**
+     * select data from statement
+     * @param statement
+     * @param result
+     * @param map
+     * @param <T>
+     * @return
+     */
     public <T> T selectAll(String statement, Class<?> result, Map<String, String> map){
         return executor.queryList(statement, result, map);
     }
 
     /**
-     * 动态代理调用
+     * Dynamic proxy call
      * @param clas
      * @param <T>
      * @return

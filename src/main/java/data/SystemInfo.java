@@ -7,9 +7,21 @@ package data;
  **/
 
 public class SystemInfo {
+    /**
+     * The usage rate of memory
+     */
     private Double memoryUsage;
+    /**
+     * The usage rate of cpu
+     */
     private Double cpuUsage;
+    /**
+     * The usage rate of disk
+     */
     private Double diskUsage;
+    /**
+     * timestamp
+     */
     private Long time;
 
     public Double getMemoryUsage() {

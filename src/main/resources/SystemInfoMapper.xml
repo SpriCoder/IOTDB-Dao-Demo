@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mapper nameSpace="mapper.SystemInfoMapper">
-    <select id="getMyTests" resultType ="data.SystemInfo">
+    <select id="getAllSystemInfo" resultType ="SystemInfo">
         select * from root.demo
     </select>
 

@@ -24,7 +24,7 @@ public class MyConfiguration {
     private static ClassLoader loader = ClassLoader.getSystemClassLoader();
 
     /**
-     * 读取数据库配置信息，并返回处理后的Environment
+     * Read the configuration from xml, and generate connection
      * @param resource
      * @return
      */
@@ -40,6 +40,12 @@ public class MyConfiguration {
         }
     }
 
+    /**
+     * eval one node of database
+     * @param node
+     * @return
+     * @throws ClassNotFoundException
+     */
     private Connection evalDataSource(Element node) throws ClassNotFoundException{
         if(!node.getName().equals("database")){
             throw new RuntimeException("Root should be <database>");
@@ -81,7 +87,7 @@ public class MyConfiguration {
     }
 
     /**
-     *
+     * generate mapper from xml
      * @param path
      * @return
      */
@@ -96,6 +102,12 @@ public class MyConfiguration {
 
             // set the name of interface to the name of mapper
             mapper.setInterfaceName(root.attributeValue("nameSpace").trim());
+
+            // map alias -> Map<column, property>
+            Map<String, Map<String, String>> resultTypeMap = new HashMap<>();
+            // map alias_resultMap id -> resultMap name
+            Map<String, String> resultNameMap = new HashMap<>();
+
             // the list of methods
             List<Function> functionList = new ArrayList<>();
             for(Iterator rootIter = root.elementIterator(); rootIter.hasNext();){
@@ -109,7 +121,8 @@ public class MyConfiguration {
                             paramMap.put(result.attributeValue("column"),
                                     result.attributeValue("property"));
                         }
-                        mapper.setParamMap(paramMap);
+                        resultTypeMap.put(e.attributeValue("id"), paramMap);
+                        resultNameMap.put(e.attributeValue("id"), e.attributeValue("resultType"));
                         break;
                     default:
                         Function function = new Function();
@@ -117,21 +130,28 @@ public class MyConfiguration {
                         String funcName = e.attributeValue("id").trim();
                         String sql = e.getText().trim();
                         String resultType = e.attributeValue("resultType").trim();
+
                         function.setSqlType(sqlType);
                         function.setFuncName(funcName);
-                        Object newInstance = null;
-                        try{
-                            newInstance = Class.forName(resultType).newInstance();
-                        }catch (InstantiationException | IllegalAccessException
-                                | ClassNotFoundException e1){
-                            e1.printStackTrace();
-                        }
-                        function.setResultType(newInstance);
+                        function.setResultType(resultType);
                         function.setSql(sql);
                         functionList.add(function);
                         break;
                 }
-
+            }
+            for(Function function: functionList){
+                String resultType = (String) function.getResultType();
+                function.setResultMap(resultTypeMap.get(resultType));
+                try{
+                    function.setResultType(Class.forName(resultType));
+                }catch (ClassNotFoundException e1){
+                    try{
+                        resultType = resultNameMap.get(resultType);
+                        function.setResultType(Class.forName(resultType));
+                    }catch (ClassNotFoundException e2){
+                        throw new RuntimeException("[mapper]: unknown resultType", e2);
+                    }
+                }
             }
             mapper.setFunctions(functionList);
         }catch (DocumentException e){

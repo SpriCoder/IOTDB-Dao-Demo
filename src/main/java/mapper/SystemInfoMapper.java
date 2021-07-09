@@ -11,5 +11,9 @@ import java.util.List;
  **/
 
 public interface SystemInfoMapper {
-    List<SystemInfo> getMyTests();
+    /**
+     * get all records of SystemInfo
+     * @return
+     */
+    List<SystemInfo> getAllSystemInfo();
 }

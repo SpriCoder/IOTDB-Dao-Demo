@@ -10,9 +10,10 @@ import java.util.Map;
 
 public interface Executor {
     /**
+     * 执行列表查询
      *
-     * @param <T>
-     * @param query
+     * @param <T> 结果泛型
+     * @param query 查询语句
      * @param resultType 结果类型
      * @param map 映射类型
      * @return
